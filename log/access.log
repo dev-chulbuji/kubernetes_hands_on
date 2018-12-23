@@ -1,0 +1,2 @@
+::1 [2018-12-23T06:56:48.882Z] "GET / HTTP/1.1" 304 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36" 4.087
+::1 [2018-12-23T06:56:49.407Z] "GET /favicon.ico HTTP/1.1" 200 15 "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36" 1.226
