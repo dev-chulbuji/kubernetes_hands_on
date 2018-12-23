@@ -1,4 +1,5 @@
 const express = require('express')
+const http = require('http')
 const app = express()
 
 const logger = require('morgan')
@@ -12,13 +13,24 @@ const setLogger = () => {
   const format = ':remote-addr [:date[iso]] ":method :url HTTP/:http-version" :status' +
     ' :res[content-length] ":referrer" ":user-agent" :response-time'
   app.use(logger(format, { stream: logFile, skip: false }))
-
 }
 
 setLogger()
 
-app.get('*', (req, res, next) => {
+app.get('/', (req, res, next) => {
   res.json('test response')
+})
+
+app.get('/check', (req, res, next) => {
+  http.request('http://node-svc.default.svc.cluster.local:30000', function(response) {
+    let returnValue = ''
+    response.on('data', (chunk) => {
+      returnValue += chunk
+    })
+    response.on('end', () => {
+      res.json(returnValue)
+    })
+  }).end();
 })
 
 app.listen(3000, () => console.log('server is running on 3000 port'))
