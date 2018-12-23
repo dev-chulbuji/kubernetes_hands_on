@@ -6,6 +6,8 @@ const logger = require('morgan')
 const path = require('path')
 const fs = require('fs')
 
+const port = 4000
+
 const setLogger = () => {
   app.use(logger('dev'))
 
@@ -33,4 +35,4 @@ app.get('/check', (req, res, next) => {
   }).end();
 })
 
-app.listen(3000, () => console.log('server is running on 3000 port'))
+app.listen(port, () => console.log(`server is running on ${port} port`))
