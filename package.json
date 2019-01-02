@@ -11,6 +11,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "morgan": "^1.9.1",
+    "request": "^2.88.0",
     "to": "^0.2.9",
     "update": "^0.7.4"
   },

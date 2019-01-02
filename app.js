@@ -5,6 +5,7 @@ const app = express()
 const logger = require('morgan')
 const path = require('path')
 const fs = require('fs')
+const request = require('request')
 
 const port = 4000
 
@@ -22,20 +23,12 @@ app.get('/', (req, res, next) => {
   res.json('test response')
 })
 
-app.get('/check', (req, res, next) => {
-  http.request('http://nodeapp-svc.default.svc.cluster.local:30000', function(response) {
-    let returnValue = ''
-    response.on('data', (chunk) => {
-      returnValue += chunk
-    })
-    response.on('end', () => {
-      res.json(returnValue)
-    })
-    response.on('error', (err) => {
-      console.log(err)
-      res.json('err', err)
-    })
-  }).end();
+app.get('/check', async (req, res, next) => {
+  const url = `http://nodeapp-svc.default.svc.cluster.local:3000`  
+  await request.get(url, { timeout: 3000 }, (err, r, body) => {
+    if (err) return res.json(JSON.stringify(err))   
+    return res.json(body)
+  })
 })
 
 app.listen(port, () => console.log(`server is running on ${port} port`))
