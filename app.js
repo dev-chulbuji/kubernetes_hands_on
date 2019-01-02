@@ -12,8 +12,7 @@ const setLogger = () => {
   app.use(logger('dev'))
 
   const logFile = fs.createWriteStream(path.normalize(`${__dirname}/log/access.log`), { flags: 'a' })
-  const format = ':remote-addr [:date[iso]] ":method :url HTTP/:http-version" :status' +
-    ' :res[content-length] ":referrer" ":user-agent" :response-time'
+  const format = `:remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"`
   app.use(logger(format, { stream: logFile, skip: false }))
 }
 
@@ -24,13 +23,17 @@ app.get('/', (req, res, next) => {
 })
 
 app.get('/check', (req, res, next) => {
-  http.request('http://node-svc.default.svc.cluster.local:30000', function(response) {
+  http.request('http://nodeapp-svc.default.svc.cluster.local:30000', function(response) {
     let returnValue = ''
     response.on('data', (chunk) => {
       returnValue += chunk
     })
     response.on('end', () => {
       res.json(returnValue)
+    })
+    response.on('error', (err) => {
+      console.log(err)
+      res.json('err', err)
     })
   }).end();
 })
